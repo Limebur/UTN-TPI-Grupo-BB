@@ -19,6 +19,18 @@ def pedir_entero(mensaje):
         except ValueError:
             print("Debe ingresar un número entero.")
 
+def pedir_nombre(mensaje):
+    while True:
+        try:
+            nombre= input(mensaje).title().strip() 
+            if nombre == "":
+                raise ValueError("Error: No se permiten espacios vacios")
+            elif not nombre.replace(" ", "").isalpha():
+                raise ValueError("Error: Debe ingresar solamente letras")
+            return nombre
+        except ValueError as e:
+            print(e)
+
 def cargar_csv(nombre_archivo):
     paises = []
     ruta = os.path.join(os.path.dirname(__file__), nombre_archivo)
@@ -47,29 +59,16 @@ def agregar_pais(paises):
     print("== AGREGAR PAÍS ==")
     while True:
         try:
-            nombre = input("Nombre: ").strip().capitalize()
-            if nombre == "":
-                raise ValueError("Error: No se aceptan espacios vacios")
+            nombre = pedir_nombre("Nombre: ")
             for pais in paises:
                 if pais["nombre"].lower() == nombre.lower():
                     raise ValueError("Ese país ya existe.")
-            if not nombre.isalpha():
-                raise ValueError("Error: Debe ingresar solamente letras")
             break
         except ValueError as e:
             print(e)
     poblacion = pedir_entero("Población: ")
     superficie = pedir_entero("Superficie: ")
-    while True:
-        try:
-            continente = input("Continente: ").strip()
-            if continente == "":
-                raise ValueError("Error: No se aceptan espacios vacios")
-            if not continente.isalpha():
-                raise ValueError("Error: Debe ingresar solamente letras")
-            break
-        except ValueError as e:
-            print(e)
+    continente = pedir_nombre("Continente: ")
     pais = {"nombre": nombre, "poblacion": poblacion, "superficie": superficie, "continente": continente}
     paises.append(pais)
     print("País agregado correctamente.")
@@ -102,19 +101,10 @@ def actualizar_pais(paises):
 
 def buscar_pais(paises):
     print("== BUSCAR PAÍS ==")
-    while True:
-        try:
-            pais_buscar = input("Buscar: ").lower().strip()
-            if pais_buscar == "":
-                raise ValueError("Error: No se aceptan espacios vacios")
-            elif not pais_buscar.isalpha():
-                raise ValueError("Error: Debe ingresar solamente letras")
-            break
-        except ValueError as e:
-            print(e)
+    pais_buscar = pedir_nombre("Ingrese el nombre del pais que desea buscar (de forma exactaa o parcial): ")
     encontrados = False
     for pais in paises:
-        if pais_buscar in pais["nombre"].lower():
+        if pais_buscar.lower() in pais["nombre"].lower():
             encontrados = True
             print(f"- Pais: {pais["nombre"]} | Poblacion: {pais["poblacion"]} | Superficie: {pais["superficie"]} | Continente: {pais["continente"]}")
     if not encontrados:
@@ -128,19 +118,10 @@ def buscar_pais(paises):
 def filtrar_continente(paises):
     print("== FILTRAR CONTINENTE ==")
     encontrado= False
-    while True:
-        try:
-            continente = input("Continente: ").lower().strip()
-            if continente == "":
-                raise ValueError("Error: No se aceptan espacios vacios")
-            if not continente.isalpha():
-                raise ValueError("Error: Debe ingresar solamente letras")
-            break
-        except ValueError as e:
-            print(e)
+    continente = pedir_nombre("Ingrese el nombre del continente para ver sus paises: ")
     print(f"[Paises del continente {continente}]")
     for pais in paises:
-        if pais["continente"].lower() == continente:
+        if pais["continente"].lower() == continente.lower():
             print(f"- Pais: {pais["nombre"]} | Poblacion: {pais["poblacion"]} | Superficie: {pais["superficie"]}")
             encontrado= True
     if not encontrado:
@@ -190,7 +171,7 @@ def filtrar_superficie(paises):
         limpiar_consola()
     else:
         continuar()
-        limpiar_consola()   
+        limpiar_consola()
 
 def menu_filtros(paises):
     while True:
