@@ -77,18 +77,9 @@ def agregar_pais(paises):
 
 def actualizar_pais(paises):
     print("== ACTUALIZAR PAÍS ==")
-    while True:
-        try:
-            nombre = input("País a actualizar: ").lower()
-            if nombre == "":
-                raise ValueError("Error: No se aceptan espacios vacios")
-            if not nombre.isalpha():
-                raise ValueError("Error: Debe ingresar solamente letras")
-            break
-        except ValueError as e:
-            print(e)
+    nombre = pedir_nombre("País a actualizar: ")
     for pais in paises:
-        if pais["nombre"].lower() == nombre:
+        if pais["nombre"].lower() == nombre.lower():
             pais["poblacion"] = pedir_entero("Nueva población: ")
             pais["superficie"] = pedir_entero("Nueva superficie: ")
             print("País actualizado.")
@@ -101,7 +92,7 @@ def actualizar_pais(paises):
 
 def buscar_pais(paises):
     print("== BUSCAR PAÍS ==")
-    pais_buscar = pedir_nombre("Ingrese el nombre del pais que desea buscar (de forma exactaa o parcial): ")
+    pais_buscar = pedir_nombre("Ingrese el nombre del pais que desea buscar (de forma exacta o parcial): ")
     encontrados = False
     for pais in paises:
         if pais_buscar.lower() in pais["nombre"].lower():
@@ -138,6 +129,8 @@ def filtrar_poblacion(paises):
     maximo = pedir_entero("Máximo: ")
     if minimo > maximo:
         print("El mínimo no puede ser mayor al máximo.")
+        continuar()
+        limpiar_consola()
         return
     encontrados = False
     print(f"[Paises filtrados por poblacion entre {minimo} y {maximo}]")
@@ -159,6 +152,8 @@ def filtrar_superficie(paises):
     maximo = pedir_entero("Máximo: ")
     if minimo > maximo:
         print("El mínimo no puede ser mayor al máximo.")
+        continuar()
+        limpiar_consola()
         return
     encontrados = False
     for pais in paises:
