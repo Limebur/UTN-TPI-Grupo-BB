@@ -8,6 +8,6 @@ El desarrollo ha sido modularizado y dividido en funciones:<br>
 -'main.py': Ejecuta el menú principal<br>
 -'funciones.py': Contiene todas las funciones y algoritmos de calculo<br>
 -'paises.py': Base de datos de entrada<br>
-Librerias de terceros: Questionary, Rich<br>
+Librerias de terceros: Questionary<br>
 GitHub repositorio: https://github.com/Limebur/UTN-TPI-Grupo-BB<br>
 Video Demostración: pendiente
